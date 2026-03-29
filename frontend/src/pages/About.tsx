@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExternalLink, GitBranch, Brain, Code2, Database, Shield, Award, User } from 'lucide-react';
+import { ExternalLink, GitBranch, Brain, Code2, Database, Shield, Award } from 'lucide-react';
 
 export default function About() {
   const skills = [
@@ -12,18 +12,18 @@ export default function About() {
   const projects = [
     {
       name: 'FinSentinel',
-      desc: 'AI-powered real-time fraud detection platform. XGBoost + Isolation Forest + SHAP explainability. FastAPI backend, React TypeScript dashboard, WebSocket live feed, Docker, CI/CD.',
+      desc: 'AI-powered real-time fraud detection platform. XGBoost + Isolation Forest + SHAP explainability. FastAPI backend, React TypeScript dashboard, WebSocket live feed, Docker, CI/CD. AUC-ROC: 1.0000.',
       tech: ['Python', 'XGBoost', 'SHAP', 'FastAPI', 'React', 'TypeScript', 'Docker'],
-      github: 'https://github.com/ajitjoshi0/finsentinel',
+      github: 'https://github.com/Ajitjoshi07/finsentinel',
       demo: 'https://finsentinel-ui.onrender.com',
       badge: 'Current',
       badgeColor: 'var(--accent-primary)',
     },
     {
       name: 'CodeSync',
-      desc: 'Real-time collaborative code editor with live multi-user synchronization, syntax highlighting, and room-based sessions.',
+      desc: 'Real-time collaborative code editor with live multi-user synchronization, syntax highlighting, and room-based sessions. Multiple developers can code together simultaneously in the browser.',
       tech: ['React', 'Node.js', 'WebSocket', 'Monaco Editor'],
-      github: 'https://github.com/ajitjoshi0/codesync',
+      github: 'https://github.com/Ajitjoshi07/codesync',
       demo: null,
       badge: 'Previous',
       badgeColor: 'var(--accent-violet)',
@@ -50,19 +50,22 @@ export default function About() {
             <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 800, marginBottom: 2 }}>Ajit Mukund Joshi</div>
             <div style={{ fontSize: 13, color: 'var(--accent-primary)', fontWeight: 600, marginBottom: 8 }}>AI Engineer & Software Developer</div>
             <div style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.8, marginBottom: 14 }}>
-              B.Tech in Artificial Intelligence & Data Science. Passionate about building industry-grade AI systems that solve real-world problems. Expert in end-to-end ML pipelines, full-stack development, and production deployment. Targeting fintech engineering roles at companies like Mastercard.
+              B.Tech in Artificial Intelligence & Data Science. Expert in end-to-end ML pipelines, full-stack development, and building production-grade AI systems. Passionate about fintech engineering and building systems that matter at scale — not just models, but the complete platform around them.
             </div>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 14 }}>
-              {['B.Tech AI & DS', 'AI Engineer', 'Software Developer', 'Full-Stack', 'MLOps'].map(b => (
+              {['B.Tech AI & DS', 'AI Engineer', 'Software Developer', 'Full-Stack', 'MLOps', 'Fintech'].map(b => (
                 <span key={b} style={{ fontSize: 10, padding: '3px 10px', borderRadius: 99, background: 'rgba(59,130,246,0.1)', color: 'var(--accent-primary)', border: '1px solid rgba(59,130,246,0.2)', fontFamily: 'var(--font-mono)' }}>{b}</span>
               ))}
             </div>
-            <div style={{ display: 'flex', gap: 10 }}>
-              <a href="https://github.com/ajitjoshi0" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 14px', borderRadius: 8, background: 'var(--bg-elevated)', border: '1px solid var(--border)', color: 'var(--text-primary)', fontSize: 12, textDecoration: 'none' }}>
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+              <a href="https://github.com/Ajitjoshi07" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 14px', borderRadius: 8, background: 'var(--bg-elevated)', border: '1px solid var(--border)', color: 'var(--text-primary)', fontSize: 12, textDecoration: 'none' }}>
                 <GitBranch size={13}/> GitHub
               </a>
-              <a href="https://linkedin.com/in/ajitmukund" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 14px', borderRadius: 8, background: 'rgba(10,102,194,0.1)', border: '1px solid rgba(10,102,194,0.3)', color: '#4a9edd', fontSize: 12, textDecoration: 'none' }}>
+              <a href="https://www.linkedin.com/in/ajit-joshi-ai-engineer" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 14px', borderRadius: 8, background: 'rgba(10,102,194,0.1)', border: '1px solid rgba(10,102,194,0.3)', color: '#4a9edd', fontSize: 12, textDecoration: 'none' }}>
                 <ExternalLink size={13}/> LinkedIn
+              </a>
+              <a href="https://leetcode.com/u/ajit_joshi_/" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 14px', borderRadius: 8, background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.3)', color: 'var(--accent-amber)', fontSize: 12, textDecoration: 'none' }}>
+                <ExternalLink size={13}/> LeetCode
               </a>
             </div>
           </div>
@@ -123,7 +126,9 @@ export default function About() {
           <span style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 700 }}>Education</span>
         </div>
         <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>B.Tech — Artificial Intelligence & Data Science</div>
-        <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>Machine Learning · Deep Learning · Data Engineering · Software Systems · Full-Stack Development</div>
+        <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.7 }}>
+          Specialization in Machine Learning · Deep Learning · Data Engineering · Software Systems · Full-Stack Development · MLOps
+        </div>
       </div>
 
       <div style={{ textAlign: 'center', padding: '16px 0', borderTop: '1px solid var(--border)' }}>
