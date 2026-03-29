@@ -1,0 +1,21 @@
+{
+  "auc_roc": 1.0,
+  "avg_precision": 0.9997,
+  "n_train": 34000,
+  "n_test": 10000,
+  "fraud_rate": 0.025,
+  "trained_at": "2026-03-28T04:22:02.088820",
+  "feature_cols": [
+    "amount_log",
+    "hour_sin",
+    "hour_cos",
+    "geo_distance_km",
+    "velocity_1h",
+    "velocity_24h",
+    "merchant_risk_score",
+    "device_age_days",
+    "is_new_merchant",
+    "cross_border",
+    "category_encoded"
+  ]
+}

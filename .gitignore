@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+.env
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+
+# ML artifacts (large binary files - regenerated at build)
+backend/app/ml/artifacts/*.pkl
+
+# DB
+*.db
+*.sqlite3
+
+# Node
+node_modules/
+frontend/build/
+frontend/.env.local
+frontend/.env.production
+
+# Docker
+.dockerignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
