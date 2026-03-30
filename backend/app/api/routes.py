@@ -1,5 +1,5 @@
 """
-FinSentinel API Routes - PostgreSQL compatible
+FinSentinel API Routes - PostgreSQL + SQLite compatible
 """
 import json
 import asyncio
@@ -7,18 +7,22 @@ from datetime import datetime, timedelta
 from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, WebSocket, WebSocketDisconnect, Query
 from sqlalchemy.orm import Session
-from sqlalchemy import func, desc, text
-from app.core.database import get_db
+from sqlalchemy import func, desc, text, Boolean, cast
+from app.core.database import get_db, engine
 from app.models.db_models import Transaction, Alert, AuditLog
-from app.models.schemas import (
-    TransactionCreate, AlertUpdate, SimulateRequest,
-    DashboardStats, RiskDistribution, CategoryBreakdown,
-    HourlyStats, TimeSeriesPoint, GeoBubble, ModelInfo
-)
+from app.models.schemas import TransactionCreate, AlertUpdate, SimulateRequest
 from app.ml.inference import engine as ml_engine
 from app.services.simulator import generate_transaction
 
 router = APIRouter()
+
+# detect db type
+IS_PG = "postgresql" in str(engine.url)
+
+def bool_case(col: str) -> str:
+    if IS_PG:
+        return f"SUM(CASE WHEN {col}=true THEN 1 ELSE 0 END)"
+    return f"SUM(CASE WHEN {col}=1 THEN 1 ELSE 0 END)"
 
 class ConnectionManager:
     def __init__(self):
@@ -49,26 +53,16 @@ def txn_to_dict(txn: Transaction) -> dict:
         except Exception:
             pass
     return {
-        "id": txn.id,
-        "card_last4": txn.card_last4,
-        "merchant_name": txn.merchant_name,
-        "merchant_category": txn.merchant_category,
-        "amount": txn.amount,
-        "currency": txn.currency,
+        "id": txn.id, "card_last4": txn.card_last4,
+        "merchant_name": txn.merchant_name, "merchant_category": txn.merchant_category,
+        "amount": txn.amount, "currency": txn.currency,
         "timestamp": txn.timestamp.isoformat() if txn.timestamp else None,
-        "city": txn.city,
-        "country": txn.country,
-        "risk_level": txn.risk_level,
-        "fraud_probability": txn.fraud_probability,
-        "ensemble_score": txn.ensemble_score,
-        "anomaly_score": txn.anomaly_score,
-        "is_flagged": txn.is_flagged,
-        "is_blocked": txn.is_blocked,
-        "ml_explanation": txn.ml_explanation,
-        "shap_values": shap,
-        "geo_distance_km": txn.geo_distance_km,
-        "cross_border": txn.cross_border,
-        "velocity_1h": txn.velocity_1h,
+        "city": txn.city, "country": txn.country, "risk_level": txn.risk_level,
+        "fraud_probability": txn.fraud_probability, "ensemble_score": txn.ensemble_score,
+        "anomaly_score": txn.anomaly_score, "is_flagged": txn.is_flagged,
+        "is_blocked": txn.is_blocked, "ml_explanation": txn.ml_explanation,
+        "shap_values": shap, "geo_distance_km": txn.geo_distance_km,
+        "cross_border": txn.cross_border, "velocity_1h": txn.velocity_1h,
         "velocity_24h": txn.velocity_24h,
     }
 
@@ -80,32 +74,22 @@ async def create_transaction(payload: TransactionCreate, db: Session = Depends(g
     prediction = ml_engine.predict(txn_dict)
     txn = Transaction(
         **{k: v for k, v in txn_dict.items() if hasattr(Transaction, k)},
-        fraud_probability=prediction.fraud_probability,
-        anomaly_score=prediction.anomaly_score,
-        ensemble_score=prediction.ensemble_score,
-        risk_level=prediction.risk_level,
-        ml_explanation=prediction.explanation,
-        shap_json=json.dumps([s for s in prediction.shap_values]),
+        fraud_probability=prediction.fraud_probability, anomaly_score=prediction.anomaly_score,
+        ensemble_score=prediction.ensemble_score, risk_level=prediction.risk_level,
+        ml_explanation=prediction.explanation, shap_json=json.dumps(prediction.shap_values),
         is_flagged=prediction.risk_level in ("HIGH", "CRITICAL"),
         is_blocked=prediction.risk_level == "CRITICAL" and prediction.fraud_probability > 0.9,
     )
     db.add(txn)
     db.flush()
     if txn.is_flagged:
-        alert = Alert(
-            transaction_id=txn.id,
-            risk_level=prediction.risk_level,
-            status="OPEN",
-            fraud_probability=prediction.fraud_probability,
-            ensemble_score=prediction.ensemble_score,
-            explanation=prediction.explanation,
-            top_risk_factors=json.dumps(prediction.top_risk_factors),
-        )
-        db.add(alert)
-    db.add(AuditLog(
-        entity_type="transaction", entity_id=txn.id, action="created",
-        details=json.dumps({"risk_level": txn.risk_level, "amount": txn.amount}),
-    ))
+        db.add(Alert(
+            transaction_id=txn.id, risk_level=prediction.risk_level, status="OPEN",
+            fraud_probability=prediction.fraud_probability, ensemble_score=prediction.ensemble_score,
+            explanation=prediction.explanation, top_risk_factors=json.dumps(prediction.top_risk_factors),
+        ))
+    db.add(AuditLog(entity_type="transaction", entity_id=txn.id, action="created",
+        details=json.dumps({"risk_level": txn.risk_level, "amount": txn.amount})))
     db.commit()
     db.refresh(txn)
     result = txn_to_dict(txn)
@@ -113,11 +97,8 @@ async def create_transaction(payload: TransactionCreate, db: Session = Depends(g
     return result
 
 @router.get("/transactions")
-def list_transactions(
-    limit: int = Query(50, le=200), offset: int = 0,
-    risk_level: Optional[str] = None, flagged_only: bool = False,
-    db: Session = Depends(get_db)
-):
+def list_transactions(limit: int = Query(50, le=200), offset: int = 0,
+    risk_level: Optional[str] = None, flagged_only: bool = False, db: Session = Depends(get_db)):
     q = db.query(Transaction)
     if risk_level:
         q = q.filter(Transaction.risk_level == risk_level.upper())
@@ -135,11 +116,8 @@ def get_transaction(txn_id: str, db: Session = Depends(get_db)):
     return txn_to_dict(txn)
 
 @router.get("/alerts")
-def list_alerts(
-    status: Optional[str] = None, risk_level: Optional[str] = None,
-    limit: int = Query(50, le=200), offset: int = 0,
-    db: Session = Depends(get_db)
-):
+def list_alerts(status: Optional[str] = None, risk_level: Optional[str] = None,
+    limit: int = Query(50, le=200), offset: int = 0, db: Session = Depends(get_db)):
     q = db.query(Alert)
     if status:
         q = q.filter(Alert.status == status.upper())
@@ -175,12 +153,9 @@ async def update_alert(alert_id: str, payload: AlertUpdate, db: Session = Depend
     alert.updated_at = datetime.utcnow()
     if payload.status in ("CONFIRMED_FRAUD", "FALSE_POSITIVE"):
         alert.resolved_at = datetime.utcnow()
-    db.add(AuditLog(
-        entity_type="alert", entity_id=alert_id,
-        action=f"status_changed_to_{payload.status}",
-        actor=payload.reviewed_by,
-        details=json.dumps({"notes": payload.review_notes}),
-    ))
+    db.add(AuditLog(entity_type="alert", entity_id=alert_id,
+        action=f"status_changed_to_{payload.status}", actor=payload.reviewed_by,
+        details=json.dumps({"notes": payload.review_notes})))
     db.commit()
     await ws_manager.broadcast({"type": "alert_updated", "data": {"id": alert_id, "status": payload.status}})
     return {"id": alert_id, "status": payload.status}
@@ -192,22 +167,19 @@ def dashboard_stats(db: Session = Depends(get_db)):
     blocked = db.query(func.count(Transaction.id)).filter(Transaction.is_blocked == True).scalar() or 0
     avg_prob = db.query(func.avg(Transaction.fraud_probability)).scalar() or 0
     open_alerts = db.query(func.count(Alert.id)).filter(Alert.status == "OPEN").scalar() or 0
-    resolved = db.query(func.count(Alert.id)).filter(Alert.status.in_(["CONFIRMED_FRAUD", "FALSE_POSITIVE"])).scalar() or 0
+    resolved = db.query(func.count(Alert.id)).filter(Alert.status.in_(["CONFIRMED_FRAUD","FALSE_POSITIVE"])).scalar() or 0
     one_hour_ago = datetime.utcnow() - timedelta(hours=1)
     txns_1h = db.query(func.count(Transaction.id)).filter(Transaction.timestamp >= one_hour_ago).scalar() or 0
     high_1h = db.query(func.count(Transaction.id)).filter(
-        Transaction.timestamp >= one_hour_ago,
-        Transaction.risk_level.in_(["HIGH", "CRITICAL"])
-    ).scalar() or 0
+        Transaction.timestamp >= one_hour_ago, Transaction.risk_level.in_(["HIGH","CRITICAL"])).scalar() or 0
     metrics = ml_engine.metrics
     return {
         "total_transactions": total, "total_flagged": flagged, "total_blocked": blocked,
-        "fraud_rate": round(flagged / max(total, 1) * 100, 2),
+        "fraud_rate": round(flagged / max(total,1) * 100, 2),
         "avg_fraud_probability": round(float(avg_prob) * 100, 2),
         "total_alerts_open": open_alerts, "total_alerts_resolved": resolved,
         "transactions_last_hour": txns_1h, "high_risk_last_hour": high_1h,
-        "model_auc_roc": metrics.get("auc_roc", 0),
-        "model_avg_precision": metrics.get("avg_precision", 0),
+        "model_auc_roc": metrics.get("auc_roc", 0), "model_avg_precision": metrics.get("avg_precision", 0),
     }
 
 @router.get("/analytics/risk-distribution")
@@ -221,25 +193,19 @@ def risk_distribution(db: Session = Depends(get_db)):
 
 @router.get("/analytics/category-breakdown")
 def category_breakdown(db: Session = Depends(get_db)):
+    flagged_sum = bool_case("is_flagged")
     rows = db.execute(text(
-        "SELECT merchant_category, COUNT(*) as total, "
-        "SUM(CASE WHEN is_flagged=true THEN 1 ELSE 0 END) as fraud "
+        f"SELECT merchant_category, COUNT(*) as total, {flagged_sum} as fraud "
         "FROM transactions GROUP BY merchant_category ORDER BY total DESC"
     )).fetchall()
-    results = []
-    for row in rows:
-        cat, total, fraud = row[0], int(row[1] or 0), int(row[2] or 0)
-        results.append({
-            "category": cat, "count": total, "fraud_count": fraud,
-            "fraud_rate": round(fraud / max(total, 1) * 100, 2),
-        })
-    return results
+    return [{"category": r[0], "count": int(r[1] or 0), "fraud_count": int(r[2] or 0),
+             "fraud_rate": round(int(r[2] or 0)/max(int(r[1] or 1),1)*100, 2)} for r in rows]
 
 @router.get("/analytics/hourly")
 def hourly_stats(db: Session = Depends(get_db)):
+    flagged_sum = bool_case("is_flagged")
     rows = db.execute(text(
-        "SELECT hour, COUNT(*) as total, "
-        "SUM(CASE WHEN is_flagged=true THEN 1 ELSE 0 END) as flagged "
+        f"SELECT hour, COUNT(*) as total, {flagged_sum} as flagged "
         "FROM transactions GROUP BY hour ORDER BY hour"
     )).fetchall()
     counts = {int(r[0]): (int(r[1] or 0), int(r[2] or 0)) for r in rows if r[0] is not None}
@@ -247,45 +213,44 @@ def hourly_stats(db: Session = Depends(get_db)):
 
 @router.get("/analytics/geo-bubbles")
 def geo_bubbles(db: Session = Depends(get_db)):
+    flagged_sum = bool_case("is_flagged")
     rows = db.execute(text(
-        "SELECT city, country, lat, lng, COUNT(*) as total, "
-        "SUM(CASE WHEN is_flagged=true THEN 1 ELSE 0 END) as fraud "
+        f"SELECT city, country, lat, lng, COUNT(*) as total, {flagged_sum} as fraud "
         "FROM transactions WHERE city IS NOT NULL AND lat IS NOT NULL "
         "GROUP BY city, country, lat, lng ORDER BY total DESC"
     )).fetchall()
-    return [{"city": r[0], "country": r[1], "lat": r[2], "lng": r[3], "count": int(r[4] or 0), "fraud_count": int(r[5] or 0)} for r in rows]
+    return [{"city": r[0], "country": r[1], "lat": r[2], "lng": r[3],
+             "count": int(r[4] or 0), "fraud_count": int(r[5] or 0)} for r in rows]
 
 @router.get("/analytics/timeseries")
 def timeseries(db: Session = Depends(get_db)):
+    flagged_sum = bool_case("is_flagged")
     now = datetime.utcnow()
     results = []
     for i in range(30, -1, -1):
         t_start = (now - timedelta(minutes=i+1)).strftime("%Y-%m-%d %H:%M:%S")
-        t_end = (now - timedelta(minutes=i)).strftime("%Y-%m-%d %H:%M:%S")
-        label = (now - timedelta(minutes=i)).strftime("%H:%M")
+        t_end   = (now - timedelta(minutes=i)).strftime("%Y-%m-%d %H:%M:%S")
+        label   = (now - timedelta(minutes=i)).strftime("%H:%M")
         row = db.execute(text(
-            "SELECT COUNT(*) as total, SUM(CASE WHEN is_flagged=true THEN 1 ELSE 0 END) as flagged "
+            f"SELECT COUNT(*) as total, {flagged_sum} as flagged "
             "FROM transactions WHERE timestamp >= :ts AND timestamp < :te"
         ), {"ts": t_start, "te": t_end}).fetchone()
-        total = int(row[0] or 0) if row else 0
+        total   = int(row[0] or 0) if row else 0
         flagged = int(row[1] or 0) if row else 0
         results.append({"timestamp": label, "total": total, "flagged": flagged,
-                        "fraud_rate": round(flagged / max(total, 1) * 100, 1)})
+                        "fraud_rate": round(flagged/max(total,1)*100, 1)})
     return results
 
 @router.get("/analytics/top-cards-at-risk")
 def top_cards_at_risk(db: Session = Depends(get_db)):
+    flagged_sum = bool_case("is_flagged")
     rows = db.execute(text(
-        "SELECT card_last4, COUNT(*) as total, "
-        "SUM(CASE WHEN is_flagged=true THEN 1 ELSE 0 END) as fraud, "
-        "AVG(ensemble_score) as avg_score "
-        "FROM transactions GROUP BY card_last4 "
-        "HAVING SUM(CASE WHEN is_flagged=true THEN 1 ELSE 0 END) > 0 "
-        "ORDER BY fraud DESC LIMIT 10"
+        f"SELECT card_last4, COUNT(*) as total, {flagged_sum} as fraud, AVG(ensemble_score) as avg_score "
+        f"FROM transactions GROUP BY card_last4 HAVING {flagged_sum} > 0 ORDER BY fraud DESC LIMIT 10"
     )).fetchall()
     return [{"card_last4": r[0], "total": int(r[1] or 0), "fraud_count": int(r[2] or 0),
-             "avg_risk_score": round(float(r[3] or 0)*100, 1),
-             "fraud_rate": round(int(r[2] or 0)/max(int(r[1] or 1),1)*100, 1)} for r in rows]
+             "avg_risk_score": round(float(r[3] or 0)*100,1),
+             "fraud_rate": round(int(r[2] or 0)/max(int(r[1] or 1),1)*100,1)} for r in rows]
 
 @router.get("/model/info")
 def model_info():
@@ -293,11 +258,11 @@ def model_info():
         ml_engine.load()
     m = ml_engine.metrics
     return {
-        "auc_roc": m.get("auc_roc", 0), "avg_precision": m.get("avg_precision", 0),
-        "trained_at": m.get("trained_at", ""), "n_train": m.get("n_train", 0),
-        "fraud_rate": m.get("fraud_rate", 0), "model_version": "v1.0.0",
-        "features": m.get("feature_cols", []),
-        "algorithms": ["XGBoost (fraud classifier)", "Isolation Forest (anomaly detector)"],
+        "auc_roc": m.get("auc_roc",0), "avg_precision": m.get("avg_precision",0),
+        "trained_at": m.get("trained_at",""), "n_train": m.get("n_train",0),
+        "fraud_rate": m.get("fraud_rate",0), "model_version": "v1.0.0",
+        "features": m.get("feature_cols",[]),
+        "algorithms": ["XGBoost (fraud classifier)","Isolation Forest (anomaly detector)"],
         "explainability": "SHAP TreeExplainer",
     }
 
@@ -313,24 +278,20 @@ async def simulate(req: SimulateRequest, db: Session = Depends(get_db)):
         prediction = ml_engine.predict(txn_dict)
         txn = Transaction(
             **{k: v for k, v in txn_dict.items() if hasattr(Transaction, k)},
-            fraud_probability=prediction.fraud_probability,
-            anomaly_score=prediction.anomaly_score,
-            ensemble_score=prediction.ensemble_score,
-            risk_level=prediction.risk_level,
-            ml_explanation=prediction.explanation,
-            shap_json=json.dumps(prediction.shap_values),
-            is_flagged=prediction.risk_level in ("HIGH", "CRITICAL"),
+            fraud_probability=prediction.fraud_probability, anomaly_score=prediction.anomaly_score,
+            ensemble_score=prediction.ensemble_score, risk_level=prediction.risk_level,
+            ml_explanation=prediction.explanation, shap_json=json.dumps(prediction.shap_values),
+            is_flagged=prediction.risk_level in ("HIGH","CRITICAL"),
             is_blocked=prediction.risk_level == "CRITICAL" and prediction.fraud_probability > 0.9,
         )
         db.add(txn)
         db.flush()
         if txn.is_flagged:
-            alert = Alert(
+            db.add(Alert(
                 transaction_id=txn.id, risk_level=prediction.risk_level, status="OPEN",
                 fraud_probability=prediction.fraud_probability, ensemble_score=prediction.ensemble_score,
                 explanation=prediction.explanation, top_risk_factors=json.dumps(prediction.top_risk_factors),
-            )
-            db.add(alert)
+            ))
         db.commit()
         db.refresh(txn)
         result = txn_to_dict(txn)
@@ -345,7 +306,7 @@ async def websocket_feed(ws: WebSocket):
         await ws.send_json({"type": "connected", "message": "FinSentinel live feed connected"})
         while True:
             try:
-                data = await asyncio.wait_for(ws.receive_text(), timeout=30.0)
+                await asyncio.wait_for(ws.receive_text(), timeout=30.0)
                 await ws.send_json({"type": "ping", "ts": datetime.utcnow().isoformat()})
             except asyncio.TimeoutError:
                 await ws.send_json({"type": "heartbeat", "ts": datetime.utcnow().isoformat()})
@@ -354,7 +315,5 @@ async def websocket_feed(ws: WebSocket):
 
 @router.get("/health")
 def health():
-    return {
-        "status": "ok", "service": "FinSentinel API", "version": "1.0.0",
-        "ml_loaded": ml_engine._loaded, "timestamp": datetime.utcnow().isoformat(),
-    }
+    return {"status": "ok", "service": "FinSentinel API", "version": "1.0.0",
+            "ml_loaded": ml_engine._loaded, "timestamp": datetime.utcnow().isoformat()}
