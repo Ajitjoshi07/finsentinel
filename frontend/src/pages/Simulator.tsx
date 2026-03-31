@@ -18,7 +18,19 @@ export default function Simulator() {
   const [count, setCount] = useState(10);
   const [results, setResults] = useState<any[]>([]);
   const [autoMode, setAutoMode] = useState(false);
-  const autoRef = useRef<NodeJS.Timer | null>(null);
+  const startAuto = () => {
+  setAutoMode(true);
+  toast('Auto-simulation started', { icon: '▶' });
+  const id = setInterval(() => run('random', 3), 2000);
+  setAutoInterval(id);
+};
+
+const stopAuto = () => {
+  if (autoInterval) clearInterval(autoInterval);
+  setAutoInterval(null);
+  setAutoMode(false);
+  toast('Auto-simulation stopped', { icon: '⏹' });
+};
 
   const run = async (sc = scenario, ct = count) => {
     setSimRunning(true);
@@ -107,10 +119,11 @@ export default function Simulator() {
                 <RefreshCw size={13}/> Clear
               </button>
             )}
-            {!autoMode ? (
-              <button onClick={startAuto} className="btn btn-ghost" style={{ fontSize: 12 }}>
-                ▶ Auto Mode
-              </button>
+           {!autoMode ? (
+  <button onClick={startAuto} className="btn btn-ghost">▶ Auto Mode</button>
+) : (
+  <button onClick={stopAuto} className="btn btn-danger">⏹ Stop Auto</button>
+)}
             ) : (
               <button onClick={stopAuto} className="btn" style={{
                 fontSize: 12, background: 'var(--critical-bg)', color: 'var(--critical)',

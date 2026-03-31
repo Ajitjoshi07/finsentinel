@@ -16,8 +16,8 @@ IS_PG = "postgresql" in str(engine.url)
 
 def bool_sum(col):
     if IS_PG:
-        return f"SUM(CASE WHEN {col}=true THEN 1 ELSE 0 END)"
-    return f"SUM(CASE WHEN {col}=1 THEN 1 ELSE 0 END)"
+        return "SUM(CASE WHEN " + col + "=true THEN 1 ELSE 0 END)"
+    return "SUM(CASE WHEN " + col + "=1 THEN 1 ELSE 0 END)"
 
 class ConnectionManager:
     def __init__(self):
@@ -113,13 +113,9 @@ async def create_transaction(payload: TransactionCreate, db: Session = Depends(g
     return result
 
 @router.get("/transactions")
-def list_transactions(
-    limit: int = Query(50, le=200),
-    offset: int = 0,
-    risk_level: Optional[str] = None,
-    flagged_only: bool = False,
-    db: Session = Depends(get_db)
-):
+def list_transactions(limit: int = Query(50, le=200), offset: int = 0,
+    risk_level: Optional[str] = None, flagged_only: bool = False,
+    db: Session = Depends(get_db)):
     q = db.query(Transaction)
     if risk_level:
         q = q.filter(Transaction.risk_level == risk_level.upper())
@@ -137,13 +133,8 @@ def get_transaction(txn_id: str, db: Session = Depends(get_db)):
     return txn_to_dict(txn)
 
 @router.get("/alerts")
-def list_alerts(
-    status: Optional[str] = None,
-    risk_level: Optional[str] = None,
-    limit: int = Query(50, le=200),
-    offset: int = 0,
-    db: Session = Depends(get_db)
-):
+def list_alerts(status: Optional[str] = None, risk_level: Optional[str] = None,
+    limit: int = Query(50, le=200), offset: int = 0, db: Session = Depends(get_db)):
     q = db.query(Alert)
     if status:
         q = q.filter(Alert.status == status.upper())
@@ -242,12 +233,8 @@ def category_breakdown(db: Session = Depends(get_db)):
         cat = row[0]
         total = int(row[1] or 0)
         fraud = int(row[2] or 0)
-        results.append({
-            "category": cat,
-            "count": total,
-            "fraud_count": fraud,
-            "fraud_rate": round(fraud / max(total, 1) * 100, 2),
-        })
+        results.append({"category": cat, "count": total, "fraud_count": fraud,
+                        "fraud_rate": round(fraud / max(total, 1) * 100, 2)})
     return results
 
 @router.get("/analytics/hourly")
@@ -266,7 +253,8 @@ def geo_bubbles(db: Session = Depends(get_db)):
     fs = bool_sum("is_flagged")
     sql = "SELECT city, country, lat, lng, COUNT(*) as total, " + fs + " as fraud FROM transactions WHERE city IS NOT NULL AND lat IS NOT NULL GROUP BY city, country, lat, lng ORDER BY total DESC"
     rows = db.execute(text(sql)).fetchall()
-    return [{"city": r[0], "country": r[1], "lat": r[2], "lng": r[3], "count": int(r[4] or 0), "fraud_count": int(r[5] or 0)} for r in rows]
+    return [{"city": r[0], "country": r[1], "lat": r[2], "lng": r[3],
+             "count": int(r[4] or 0), "fraud_count": int(r[5] or 0)} for r in rows]
 
 @router.get("/analytics/timeseries")
 def timeseries(db: Session = Depends(get_db)):
@@ -281,12 +269,8 @@ def timeseries(db: Session = Depends(get_db)):
         row = db.execute(text(sql), {"ts": t_start, "te": t_end}).fetchone()
         total = int(row[0] or 0) if row else 0
         flagged = int(row[1] or 0) if row else 0
-        results.append({
-            "timestamp": label,
-            "total": total,
-            "flagged": flagged,
-            "fraud_rate": round(flagged / max(total, 1) * 100, 1),
-        })
+        results.append({"timestamp": label, "total": total, "flagged": flagged,
+                        "fraud_rate": round(flagged / max(total, 1) * 100, 1)})
     return results
 
 @router.get("/analytics/top-cards-at-risk")
@@ -294,7 +278,9 @@ def top_cards_at_risk(db: Session = Depends(get_db)):
     fs = bool_sum("is_flagged")
     sql = "SELECT card_last4, COUNT(*) as total, " + fs + " as fraud, AVG(ensemble_score) as avg_score FROM transactions GROUP BY card_last4 HAVING " + fs + " > 0 ORDER BY fraud DESC LIMIT 10"
     rows = db.execute(text(sql)).fetchall()
-    return [{"card_last4": r[0], "total": int(r[1] or 0), "fraud_count": int(r[2] or 0), "avg_risk_score": round(float(r[3] or 0) * 100, 1), "fraud_rate": round(int(r[2] or 0) / max(int(r[1] or 1), 1) * 100, 1)} for r in rows]
+    return [{"card_last4": r[0], "total": int(r[1] or 0), "fraud_count": int(r[2] or 0),
+             "avg_risk_score": round(float(r[3] or 0) * 100, 1),
+             "fraud_rate": round(int(r[2] or 0) / max(int(r[1] or 1), 1) * 100, 1)} for r in rows]
 
 @router.get("/model/info")
 def model_info():
@@ -376,3 +362,4 @@ def health():
         "ml_loaded": ml_engine._loaded,
         "timestamp": datetime.utcnow().isoformat(),
     }
+```
