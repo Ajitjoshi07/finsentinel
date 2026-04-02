@@ -362,3 +362,12 @@ def health():
         "ml_loaded": ml_engine._loaded,
         "timestamp": datetime.utcnow().isoformat(),
     }
+```
+
+---
+
+**Steps:**
+
+**[1]** Open this URL:
+```
+https://github.com/Ajitjoshi07/finsentinel/edit/main/backend/app/api/routes.py
