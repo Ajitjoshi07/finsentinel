@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE = process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1';
+const BASE = process.env.REACT_APP_API_URL || 'https://finsentinel.onrender.com/api/v1';
 
 export const api = axios.create({ baseURL: BASE, timeout: 15000 });
 
