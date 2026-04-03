@@ -1,9 +1,6 @@
-"""
-FinSentinel FastAPI Application
-"""
 import os
 import sys
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+sys.path.insert(0, os.path.dirname(__file__))
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -16,12 +13,10 @@ from app.api.routes import router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup
     create_tables()
     ml_engine.load()
     print("FinSentinel API ready")
     yield
-    # Shutdown
 
 
 app = FastAPI(
