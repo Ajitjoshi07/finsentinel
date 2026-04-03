@@ -1,14 +1,10 @@
-"""
-FinSentinel Inference Engine
-Real-time fraud scoring with SHAP explanations
-"""
 import pickle
 import json
 import numpy as np
 import shap
 import os
-from typing import Dict, Any, List, Tuple
 from dataclasses import dataclass
+from typing import Dict, Any, List
 
 ARTIFACTS_DIR = os.path.join(os.path.dirname(__file__), "artifacts")
 
@@ -35,7 +31,8 @@ FEATURE_LABELS = {
 
 CATEGORY_MAP = {
     0: "grocery", 1: "dining", 2: "travel", 3: "entertainment",
-    4: "retail", 5: "online", 6: "atm", 7: "transfer", 8: "utility", 9: "healthcare"
+    4: "retail", 5: "online", 6: "atm", 7: "transfer",
+    8: "utility", 9: "healthcare"
 }
 
 @dataclass
@@ -47,7 +44,6 @@ class FraudPrediction:
     shap_values: List[Dict]
     top_risk_factors: List[str]
     explanation: str
-
 
 class FraudInferenceEngine:
     def __init__(self):
@@ -93,22 +89,12 @@ class FraudInferenceEngine:
     def predict(self, txn: Dict[str, Any]) -> FraudPrediction:
         if not self._loaded:
             self.load()
-
         X_raw = self._extract_features(txn)
         X_scaled = self.scaler.transform(X_raw)
-
-        # XGBoost fraud probability
         fraud_prob = float(self.xgb_model.predict_proba(X_scaled)[0][1])
-
-        # Isolation Forest anomaly score (-1 anomaly, 1 normal) -> normalize 0-1
         iso_raw = float(self.iso_model.score_samples(X_scaled)[0])
-        # More negative = more anomalous
         anomaly_score = float(np.clip(1 - (iso_raw + 0.5) / 1.0, 0, 1))
-
-        # Ensemble: weighted combination
         ensemble = 0.75 * fraud_prob + 0.25 * anomaly_score
-
-        # Risk level
         if ensemble >= 0.80:
             risk_level = "CRITICAL"
         elif ensemble >= 0.60:
@@ -117,8 +103,6 @@ class FraudInferenceEngine:
             risk_level = "MEDIUM"
         else:
             risk_level = "LOW"
-
-        # SHAP values
         shap_vals = self.shap_explainer.shap_values(X_scaled)[0]
         shap_list = [
             {
@@ -130,15 +114,8 @@ class FraudInferenceEngine:
             for i in range(len(FEATURE_COLS))
         ]
         shap_list.sort(key=lambda x: abs(x["shap_value"]), reverse=True)
-
-        # Top risk factors (positive SHAP = pushes toward fraud)
-        top_risk = [
-            s["feature"] for s in shap_list
-            if s["shap_value"] > 0
-        ][:3]
-
-        explanation = self._generate_explanation(txn, fraud_prob, top_risk, risk_level, shap_list)
-
+        top_risk = [s["feature"] for s in shap_list if s["shap_value"] > 0][:3]
+        explanation = self._generate_explanation(txn, fraud_prob, top_risk, risk_level)
         return FraudPrediction(
             fraud_probability=round(fraud_prob, 4),
             anomaly_score=round(anomaly_score, 4),
@@ -149,9 +126,7 @@ class FraudInferenceEngine:
             explanation=explanation,
         )
 
-    def _generate_explanation(
-        self, txn, prob, top_risk, risk_level, shap_list
-    ) -> str:
+    def _generate_explanation(self, txn, prob, top_risk, risk_level):
         parts = []
         amount = txn.get("amount", 0)
         geo = txn.get("geo_distance_km", 0)
@@ -159,16 +134,14 @@ class FraudInferenceEngine:
         cross = txn.get("cross_border", False)
         new_merch = txn.get("is_new_merchant", False)
         merchant_risk = txn.get("merchant_risk_score", 0)
-
         if prob >= 0.80:
-            parts.append(f"This transaction carries a CRITICAL fraud probability of {prob*100:.1f}%.")
+            parts.append(f"CRITICAL fraud probability of {prob*100:.1f}%.")
         elif prob >= 0.60:
-            parts.append(f"This transaction shows HIGH fraud risk at {prob*100:.1f}% probability.")
+            parts.append(f"HIGH fraud risk at {prob*100:.1f}% probability.")
         elif prob >= 0.35:
-            parts.append(f"Moderate fraud signals detected ({prob*100:.1f}% probability).")
+            parts.append(f"Moderate fraud signals detected ({prob*100:.1f}%).")
         else:
             parts.append(f"Transaction appears legitimate ({prob*100:.1f}% fraud probability).")
-
         if geo > 500:
             parts.append(f"Geographic anomaly: card used {geo:.0f} km from home location.")
         if v1h >= 3:
@@ -176,19 +149,15 @@ class FraudInferenceEngine:
         if cross:
             parts.append("Cross-border transaction detected.")
         if new_merch:
-            parts.append("First-time merchant — no prior transaction history.")
+            parts.append("First-time merchant.")
         if merchant_risk > 0.7:
-            parts.append(f"Merchant risk score elevated at {merchant_risk:.2f}.")
+            parts.append(f"Elevated merchant risk score: {merchant_risk:.2f}.")
         if amount > 2000:
-            parts.append(f"Unusually large transaction amount (${amount:,.2f}).")
+            parts.append(f"Unusually large amount (${amount:,.2f}).")
         elif amount < 2:
             parts.append("Micro-transaction probing pattern detected.")
-
         if not parts[1:]:
-            parts.append("No major individual risk signals; ensemble model flagged subtle pattern combination.")
-
+            parts.append("No major individual signals; ensemble flagged subtle pattern combination.")
         return " ".join(parts)
 
-
-# Singleton
 engine = FraudInferenceEngine()
