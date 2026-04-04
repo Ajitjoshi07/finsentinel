@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useStore } from '../../store';
-import { LayoutDashboard, AlertTriangle, ArrowLeftRight, Brain, Activity, Shield, Zap, User } from 'lucide-react';
+import { LayoutDashboard, AlertTriangle, ArrowLeftRight, Brain, Activity, Shield, Zap, User, BookOpen } from 'lucide-react';
 
 const NAV = [
   { to: '/', icon: LayoutDashboard, label: 'Overview' },
@@ -10,6 +10,7 @@ const NAV = [
   { to: '/transactions', icon: ArrowLeftRight, label: 'Transactions' },
   { to: '/model', icon: Brain, label: 'ML Intelligence' },
   { to: '/simulate', icon: Zap, label: 'Simulator' },
+  { to: '/guide', icon: BookOpen, label: 'User Guide' },
   { to: '/about', icon: User, label: 'About Me' },
 ];
 
@@ -29,24 +30,24 @@ export default function Sidebar() {
         </div>
       </div>
       <div style={{ padding: '12px 20px', borderBottom: '1px solid var(--border)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 11, color: wsConnected ? 'var(--accent-emerald)' : 'var(--text-muted)' }}>
-          <span className={`live-dot ${wsConnected ? '' : 'red'}`} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 11, color: wsConnected ? '#10b981' : '#ef4444' }}>
+          <span style={{ width: 7, height: 7, borderRadius: '50%', background: wsConnected ? '#10b981' : '#ef4444', display: 'inline-block', boxShadow: wsConnected ? '0 0 6px #10b981' : '0 0 6px #ef4444' }} />
           {wsConnected ? 'Live feed active' : 'Connecting...'}
         </div>
       </div>
       <nav style={{ flex: 1, padding: '12px 10px', display: 'flex', flexDirection: 'column', gap: 2 }}>
         {NAV.map(({ to, icon: Icon, label }) => (
-          <NavLink key={to} to={to} end={to === '/'} style={({ isActive }) => ({ display: 'flex', alignItems: 'center', gap: 10, padding: '9px 12px', borderRadius: 'var(--radius-md)', textDecoration: 'none', fontSize: 13, fontWeight: 500, color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)', background: isActive ? 'var(--bg-elevated)' : 'transparent', borderLeft: isActive ? '2px solid var(--accent-primary)' : '2px solid transparent', transition: 'all 0.15s', position: 'relative' })}>
+          <NavLink key={to} to={to} end={to === '/'} style={({ isActive }) => ({ display: 'flex', alignItems: 'center', gap: 10, padding: '9px 12px', borderRadius: 8, textDecoration: 'none', fontSize: 13, fontWeight: 500, color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)', background: isActive ? 'var(--bg-elevated)' : 'transparent', borderLeft: isActive ? '2px solid #3b82f6' : '2px solid transparent', transition: 'all 0.15s' })}>
             <Icon size={16} />
             <span style={{ flex: 1 }}>{label}</span>
             {label === 'Alert Queue' && alertCount > 0 && (
-              <span style={{ background: 'var(--critical)', color: '#fff', borderRadius: 99, padding: '1px 6px', fontSize: 10, fontFamily: 'var(--font-mono)', fontWeight: 700 }}>{alertCount > 99 ? '99+' : alertCount}</span>
+              <span style={{ background: '#ef4444', color: '#fff', borderRadius: 99, padding: '1px 6px', fontSize: 10, fontFamily: 'monospace', fontWeight: 700 }}>{alertCount > 99 ? '99+' : alertCount}</span>
             )}
           </NavLink>
         ))}
       </nav>
       <div style={{ padding: '16px 20px', borderTop: '1px solid var(--border)' }}>
-        <div style={{ fontSize: 10, color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>v1.0.0 · XGBoost + SHAP</div>
+        <div style={{ fontSize: 10, color: 'var(--text-muted)', fontFamily: 'monospace' }}>v1.0.0 · XGBoost + SHAP</div>
         <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 2 }}>Ajit Mukund Joshi</div>
       </div>
     </aside>
