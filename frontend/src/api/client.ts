@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE = 'https://finsentinel.onrender.com/api/v1';
+const BASE = 'https://finsentinel.onrender.com';
 
 export const api = axios.create({ baseURL: BASE, timeout: 15000 });
 
@@ -32,7 +32,7 @@ export const simulate = (scenario: string, count: number) =>
 // Model
 export const getModelInfo = () => api.get('/model/info').then(r => r.data);
 
-// ✅ FIXED WebSocket
+// WebSocket
 export const createWebSocket = (): WebSocket => {
   return new WebSocket("wss://finsentinel.onrender.com/ws/feed");
 };
