@@ -1,149 +1,115 @@
 <div align="center">
-  <img src="https://img.shields.io/badge/FinSentinel-AI%20Fraud%20Intelligence-3b82f6?style=for-the-badge&logo=shield&logoColor=white" alt="FinSentinel"/>
-  <h1>🛡️ FinSentinel</h1>
-  <p><strong>AI-Powered Transaction Intelligence Platform</strong></p>
-  <p>Real-time fraud detection · SHAP explainability · Case management · Live WebSocket dashboard</p>
 
-  <p>
-    <a href="https://finsentinel-ui.onrender.com"><img src="https://img.shields.io/badge/🚀 Live Demo-finsentinel--ui.onrender.com-blue?style=for-the-badge" alt="Live Demo"/></a>
-    <a href="https://finsentinel.onrender.com/docs"><img src="https://img.shields.io/badge/📖 API Docs-Swagger UI-green?style=for-the-badge" alt="API Docs"/></a>
-  </p>
+# 🛡️ FinSentinel
+### AI-Powered Transaction Intelligence Platform
 
-  <p>
-    <a href="https://github.com/Ajitjoshi07"><img src="https://img.shields.io/badge/GitHub-Ajitjoshi07-black?style=flat-square&logo=github" alt="GitHub"/></a>
-    <a href="https://www.linkedin.com/in/ajit-joshi-ai-engineer?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"><img src="https://img.shields.io/badge/LinkedIn-Ajit Joshi-blue?style=flat-square&logo=linkedin" alt="LinkedIn"/></a>
-    <a href="https://leetcode.com/u/ajit_joshi_/"><img src="https://img.shields.io/badge/LeetCode-ajit__joshi__-orange?style=flat-square" alt="LeetCode"/></a>
-  </p>
+**Built by [Ajit Mukund Joshi](https://github.com/Ajitjoshi07) · B.Tech Artificial Intelligence & Data Science**
 
-  <p>
-    <img src="https://img.shields.io/badge/Python-3.11-blue?logo=python" alt="Python"/>
-    <img src="https://img.shields.io/badge/FastAPI-0.111-green?logo=fastapi" alt="FastAPI"/>
-    <img src="https://img.shields.io/badge/React-18-blue?logo=react" alt="React"/>
-    <img src="https://img.shields.io/badge/TypeScript-5-blue?logo=typescript" alt="TypeScript"/>
-    <img src="https://img.shields.io/badge/XGBoost-2.0-orange" alt="XGBoost"/>
-    <img src="https://img.shields.io/badge/Docker-Containerized-blue?logo=docker" alt="Docker"/>
-    <img src="https://img.shields.io/badge/Tests-13%2F13 Passing-brightgreen" alt="Tests"/>
-    <img src="https://img.shields.io/badge/AUC--ROC-1.0000-gold" alt="AUC-ROC"/>
-  </p>
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-finsentinel--ui.onrender.com-3b82f6?style=for-the-badge)](https://finsentinel-ui.onrender.com)
+[![API Docs](https://img.shields.io/badge/📖_API_Docs-Swagger_UI-10b981?style=for-the-badge)](https://finsentinel.onrender.com/docs)
+[![Health Check](https://img.shields.io/badge/❤️_Health-API_Status-8b5cf6?style=for-the-badge)](https://finsentinel.onrender.com/api/v1/health)
+
+[![GitHub](https://img.shields.io/badge/GitHub-Ajitjoshi07-black?style=flat-square&logo=github)](https://github.com/Ajitjoshi07)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Ajit_Joshi-0a66c2?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/ajit-joshi-ai-engineer)
+[![LeetCode](https://img.shields.io/badge/LeetCode-ajit__joshi__-f89f1b?style=flat-square)](https://leetcode.com/u/ajit_joshi_/)
+
+![Python](https://img.shields.io/badge/Python-3.11-3776ab?logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.111-009688?logo=fastapi&logoColor=white)
+![React](https://img.shields.io/badge/React-18-61dafb?logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)
+![XGBoost](https://img.shields.io/badge/XGBoost-2.0-ff6600)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169e1?logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Containerized-2496ed?logo=docker&logoColor=white)
+![AUC-ROC](https://img.shields.io/badge/AUC--ROC-1.0000-gold)
+![Tests](https://img.shields.io/badge/Tests-13%2F13_Passing-brightgreen)
+
 </div>
+
+---
+
+> ⚠️ **First time loading?** The backend runs on a free tier and sleeps after 15 minutes of inactivity.
+> Open the [health check](https://finsentinel.onrender.com/api/v1/health) first, wait for `{"status":"ok"}`, then open the [live demo](https://finsentinel-ui.onrender.com).
 
 ---
 
 ## 👨‍💻 About the Builder
 
-**Ajit Mukund Joshi** — AI Engineer & Software Developer · B.Tech Artificial Intelligence & Data Science
+**Ajit Mukund Joshi** is an AI Engineer and Software Developer with a B.Tech in Artificial Intelligence & Data Science. He specializes in end-to-end ML pipelines, full-stack development, and building production-grade AI systems that solve real-world problems.
 
-FinSentinel was built to demonstrate the depth of engineering required at companies like Mastercard — not just a fraud detection model, but the complete intelligence platform around it: real-time ML scoring, explainability, analyst case management, WebSocket streaming, and full DevOps.
+FinSentinel demonstrates the complete engineering depth required at companies like Mastercard — not just a model, but the entire fraud intelligence platform: real-time scoring, explainability, case management, WebSocket streaming, and full DevOps.
 
-| | |
+| Platform | Link |
 |---|---|
 | 🐙 GitHub | [github.com/Ajitjoshi07](https://github.com/Ajitjoshi07) |
-| 💼 LinkedIn | [Ajit Joshi — AI Engineer](https://www.linkedin.com/in/ajit-joshi-ai-engineer?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app) |
-| 🧩 LeetCode | [leetcode.com/u/ajit_joshi_/](https://leetcode.com/u/ajit_joshi_/) |
-
----
-
-## 📋 Table of Contents
-
-- [What Is FinSentinel?](#-what-is-finsentinel)
-- [Live Demo](#-live-demo)
-- [Model Performance](#-model-performance)
-- [Architecture](#-architecture)
-- [Features](#-features)
-- [Tech Stack](#-tech-stack)
-- [Getting Started](#-getting-started)
-- [API Reference](#-api-reference)
-- [Project Structure](#-project-structure)
-- [Tests](#-tests)
-- [Deployment](#-deployment)
+| 💼 LinkedIn | [Ajit Joshi — AI Engineer](https://www.linkedin.com/in/ajit-joshi-ai-engineer) |
+| 🧩 LeetCode | [ajit_joshi_](https://leetcode.com/u/ajit_joshi_/) |
+| 🔗 CodeSync | [Real-time Collaborative Code Editor](https://ajitjoshi-codesync.onrender.com) |
 
 ---
 
 ## 🎯 What Is FinSentinel?
 
-FinSentinel is a **full-stack, production-grade fraud detection and transaction intelligence platform** — the kind of system that companies like Mastercard, Visa, Stripe, and PayPal run internally to protect millions of card transactions every day.
+FinSentinel is a **full-stack, production-grade fraud detection and transaction intelligence platform** — the kind of system that Mastercard, Visa, Stripe, and PayPal run internally to protect millions of card transactions every day.
 
-### The Problem
-
-Global card fraud costs the financial industry **$33 billion per year**. Every payment company needs:
-
-- ✅ Real-time transaction scoring (< 100ms)
-- ✅ ML models that catch patterns humans cannot see
-- ✅ Explainability — not just "fraud" but **why**
-- ✅ Analyst case management workflow
-- ✅ Live dashboards with fraud trends and geographic hotspots
-
-**FinSentinel solves all five in one platform.**
-
-### How It Works — One Transaction's Journey
-
+Every transaction processed by FinSentinel goes through this pipeline:
 ```
-Card Swipe → API receives transaction → 11 features extracted
-    → XGBoost scores fraud probability (98.7%)
-    → Isolation Forest confirms anomaly
-    → Ensemble score: 0.91 (CRITICAL)
-    → SHAP explains: large amount + 8000km from home + new merchant
-    → AI generates plain-English explanation
-    → Transaction BLOCKED · Alert created · Dashboard updates via WebSocket
+Card Transaction
+      ↓
+Feature Engineering (11 features extracted)
+      ↓
+XGBoost Classifier  →  Fraud Probability Score
+Isolation Forest    →  Anomaly Score
+      ↓
+Ensemble Score = 75% XGBoost + 25% Isolation Forest
+      ↓
+Risk Level: LOW / MEDIUM / HIGH / CRITICAL
+      ↓
+SHAP Explainer → "Why was this flagged?"
+      ↓
+Alert Created → Analyst Queue → Dashboard Updated via WebSocket
 ```
-
----
-
-## 🌐 Live Demo
-
-| Service | URL |
-|---------|-----|
-| 🖥️ **Live Dashboard** | [finsentinel-ui.onrender.com](https://finsentinel-ui.onrender.com) |
-| 🔧 **API** | [finsentinel.onrender.com](https://finsentinel.onrender.com) |
-| 📖 **Swagger Docs** | [finsentinel.onrender.com/docs](https://finsentinel.onrender.com/docs) |
-| ❤️ **Health Check** | [finsentinel.onrender.com/api/v1/health](https://finsentinel.onrender.com/api/v1/health) |
-
-> **Note:** Free tier — first load may take 30 seconds to wake up.
 
 ---
 
 ## 📊 Model Performance
 
 | Metric | Score |
-|--------|-------|
+|---|---|
 | **AUC-ROC** | **1.0000** |
 | **Average Precision** | **0.9997** |
 | **Fraud Recall** | **100%** |
 | **Precision (fraud)** | **98%** |
 | **F1 Score** | **98.8%** |
 | Training Samples | 50,000 |
-| Real Fraud Rate | 2.5% |
-| Test Set | 10,000 |
+| Fraud Rate in Data | 2.5% |
+| Test Set Size | 10,000 |
 
 ---
 
-## 🏗️ Architecture
-
+## 🏗️ System Architecture
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                  React Dashboard (TypeScript)                        │
-│  Overview · Live Feed · Alert Queue · Transactions · ML · About     │
-│                finsentinel-ui.onrender.com                          │
-└──────────────────────────┬──────────────────────────────────────────┘
-                           │ REST API + WebSocket
-┌──────────────────────────▼──────────────────────────────────────────┐
-│               FastAPI Backend — finsentinel.onrender.com             │
-│                                                                     │
-│  ┌──────────────────┐  ┌─────────────────┐  ┌──────────────────┐   │
-│  │  Transaction API  │  │  Alert Engine   │  │  Analytics API   │   │
-│  │  16 endpoints    │  │  Case Mgmt      │  │  KPI/Charts/Geo  │   │
-│  └────────┬─────────┘  └─────────────────┘  └──────────────────┘   │
-│           │                                                         │
-│  ┌────────▼──────────────────────────────────────────────────────┐  │
-│  │                    ML Inference Engine                         │  │
-│  │   XGBoost (75%) + Isolation Forest (25%) + SHAP Explainer     │  │
-│  └───────────────────────────────────────────────────────────────┘  │
-└──────────────┬──────────────────────────────┬───────────────────────┘
-               │                              │
-        ┌──────▼──────┐                ┌──────▼──────┐
-        │  PostgreSQL  │                │    Redis     │
-        │  (primary)  │                │   (cache)    │
-        └─────────────┘                └─────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│           React Dashboard · finsentinel-ui.onrender.com       │
+│  Overview · Live Feed · Alerts · Transactions · ML · Guide   │
+└─────────────────────┬────────────────────────────────────────┘
+                      │  REST API + WebSocket (wss://)
+┌─────────────────────▼────────────────────────────────────────┐
+│          FastAPI Backend · finsentinel.onrender.com           │
+│                                                              │
+│  ┌─────────────────┐  ┌──────────────┐  ┌────────────────┐  │
+│  │ Transaction API  │  │ Alert Engine │  │ Analytics API  │  │
+│  │  16 endpoints   │  │  Case Mgmt   │  │ KPI/Charts/Geo │  │
+│  └────────┬────────┘  └──────────────┘  └────────────────┘  │
+│           │                                                   │
+│  ┌────────▼──────────────────────────────────────────────┐   │
+│  │              ML Inference Engine                       │   │
+│  │  XGBoost (75%) + Isolation Forest (25%) + SHAP        │   │
+│  └───────────────────────────────────────────────────────┘   │
+└──────────────┬───────────────────────┬───────────────────────┘
+               │                       │
+        ┌──────▼──────┐         ┌──────▼──────┐
+        │  PostgreSQL  │         │    Redis     │
+        └─────────────┘         └─────────────┘
 ```
 
 ---
@@ -151,63 +117,70 @@ Card Swipe → API receives transaction → 11 features extracted
 ## ✨ Features
 
 ### 🏠 Intelligence Overview Dashboard
-The command centre. Auto-refreshes every 10 seconds.
-- **KPI Cards**: Total Transactions, Fraud Flagged, Blocked, Open Alerts
-- **Transaction Volume**: 30-min area chart with total vs flagged overlay
-- **Risk Distribution**: Donut chart — LOW/MEDIUM/HIGH/CRITICAL breakdown
-- **Fraud by Category**: Bar chart showing fraud rate per merchant category
-- **Hourly Activity**: Volume heatmap by hour of day
-- **Recent Transactions**: Live scrolling feed with one-click detail
+The command centre for fraud operations. Auto-refreshes every 10 seconds.
+- **8 KPI Cards** — Total Transactions, Fraud Flagged, Blocked, Open Alerts, Txns Last Hour, Avg Fraud Probability, AUC-ROC, Avg Precision
+- **Transaction Volume** — 30-minute area chart with total vs flagged overlay
+- **Risk Distribution** — Donut chart showing LOW / MEDIUM / HIGH / CRITICAL breakdown
+- **Fraud by Category** — Bar chart showing fraud rate per merchant category
+- **Hourly Activity** — Transaction volume heatmap by hour of day
+- **Recent Transactions** — Live scrolling feed with one-click SHAP detail panel
 
 ### ⚡ Live Transaction Feed
-WebSocket real-time stream — zero polling.
-- Green dot = connected, auto-reconnects on disconnect
-- Filter by risk level · Toggle flagged-only
-- Left border colour: red = CRITICAL, orange = HIGH
-- Click any row → SHAP explanation panel
+Real-time WebSocket stream — zero polling, pure event-driven architecture.
+- Green dot = connected, auto-reconnects every 3 seconds if disconnected
+- Filter by risk level · Toggle flagged-only view
+- Red border = CRITICAL, orange = HIGH risk
+- Click any transaction row → SHAP explanation slide-over panel
 
 ### 🚨 Alert Queue — Case Management
-Full analyst workflow matching enterprise fraud operations.
+Full fraud analyst workflow matching enterprise fraud operations.
 
-| Status | Description |
-|--------|-------------|
+| Status | Meaning |
+|---|---|
 | `OPEN` | New alert, unreviewed |
-| `REVIEWING` | Analyst investigating |
+| `REVIEWING` | Analyst currently investigating |
 | `CONFIRMED_FRAUD` | Fraud confirmed, card actioned |
 | `FALSE_POSITIVE` | Model was wrong, dismissed |
-| `ESCALATED` | Needs senior review |
+| `ESCALATED` | Needs senior analyst review |
 
-- AI-generated plain-English explanation per alert
-- SHAP top risk factors as tags
-- One-click Confirm / Dismiss
-- Audit trail with reviewer name, timestamp, notes
+Each alert includes AI-generated plain-English explanation, SHAP top risk factors, full audit trail with reviewer name, timestamp, and notes.
 
 ### 🔍 Transaction Browser
-- Search by merchant name or card number
-- Filter by risk level
-- Paginated (50/page)
-- Full SHAP panel on click
+- Search by merchant name or card number (last 4 digits)
+- Filter by risk level · Toggle flagged-only
+- Paginated (50 per page)
+- Full SHAP detail panel on click
 
 ### 🧠 SHAP Explanation Panel
-The feature that separates FinSentinel from a simple classifier.
+The feature that separates FinSentinel from a black-box classifier.
 - Three score bars: XGBoost + Isolation Forest + Ensemble
-- SHAP waterfall chart: red = pushes toward fraud, green = reduces risk
-- Bar length = how much that feature mattered to THIS decision
-- Mathematically based on Shapley values (game theory)
+- SHAP waterfall chart — red bars push toward fraud, green bars reduce risk
+- Bar length shows how much each feature mattered to THIS specific decision
+- Plain-English AI-generated explanation per transaction
 
 ### 🤖 ML Intelligence Page
-- Performance radar chart (6 metrics)
+- Performance radar chart across 6 dimensions
 - Feature importance bar chart (11 features)
 - Algorithm stack with hyperparameters
-- Training metadata and model version
+- Training metadata and model version info
 
 ### ⚡ Transaction Simulator
-- 4 scenarios: Mixed Reality, Fraud Storm, Clean Traffic, Velocity Burst
-- **Auto Mode with Stop button**: generates 3 transactions/2s — stop anytime
-- Results summary: count, flagged, HIGH, CRITICAL
+4 scenarios to stress-test the fraud engine:
+
+| Scenario | Description |
+|---|---|
+| 📊 Mixed Reality | 85% normal, 15% suspicious — real-world distribution |
+| ⚡ Fraud Storm | High-velocity cross-border attacks, large anomalous amounts |
+| ✅ Clean Traffic | Low-risk domestic transactions of a trusted cardholder |
+| 🚀 Velocity Burst | Card testing attack — rapid succession micro-transactions |
+
+Auto Mode generates 3 transactions every 2 seconds — with a Stop button to pause anytime.
+
+### 📖 User Guide
+Built-in interactive step-by-step guide explaining every feature — perfect for first-time users and recruiter demos.
 
 ### 👤 About Me
-Developer profile with skills, projects, education, and links.
+Developer profile page with skills, projects, education, and all links.
 
 ---
 
@@ -215,55 +188,54 @@ Developer profile with skills, projects, education, and links.
 
 ### Backend
 | Technology | Version | Purpose |
-|-----------|---------|---------|
+|---|---|---|
 | FastAPI | 0.111 | Async REST API + WebSocket server |
 | XGBoost | 2.0 | Gradient-boosted fraud classifier |
-| Isolation Forest | sklearn | Unsupervised anomaly detection |
+| Isolation Forest | sklearn 1.5 | Unsupervised anomaly detection |
 | SHAP | 0.45 | Per-transaction explainability |
 | SQLAlchemy | 2.0 | ORM — PostgreSQL + SQLite |
 | Pydantic | v2 | Request/response validation |
 | Pandas + NumPy | latest | Feature engineering pipeline |
 | Uvicorn | 0.30 | Production ASGI server |
-| pytest | latest | 13 automated tests |
 
 ### Frontend
 | Technology | Purpose |
-|-----------|---------|
-| React 18 | Component-based UI |
-| TypeScript | Type-safe development |
-| Zustand | Global state management |
+|---|---|
+| React 18 + TypeScript | Component-based UI, fully type-safe |
+| Zustand | Lightweight global state management |
 | Recharts | Area, Bar, Pie, Radar charts |
 | WebSocket API | Real-time transaction streaming |
-| React Hot Toast | Notifications |
-| Syne + Space Grotesk + JetBrains Mono | Typography |
+| Axios | HTTP client with 30s timeout |
+| React Hot Toast | User notifications |
 
 ### DevOps
 | Technology | Purpose |
-|-----------|---------|
-| Docker + docker-compose | Containerization |
-| GitHub Actions | CI/CD pipeline |
-| Render | Cloud deployment |
+|---|---|
+| Docker + docker-compose | Full local stack containerization |
+| GitHub Actions | CI/CD — automated tests on every push |
+| Render | Cloud deployment platform |
 | PostgreSQL | Production database |
-| nginx | Static file serving |
+| pytest | 13 automated API tests |
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Quick Start (Local Development)
 
 ### Prerequisites
 - Python 3.11+
 - Node.js 18+
 - Git
 
-### Option 1 — Docker (Full Stack)
+### Option 1 — Docker (Recommended)
 ```bash
 git clone https://github.com/Ajitjoshi07/finsentinel.git
 cd finsentinel
 docker-compose up --build
 ```
+
 - Frontend: http://localhost:3000
-- API: http://localhost:8000
-- Docs: http://localhost:8000/docs
+- Backend API: http://localhost:8000
+- Swagger Docs: http://localhost:8000/docs
 
 ### Option 2 — Manual Setup
 
@@ -271,18 +243,19 @@ docker-compose up --build
 ```bash
 cd backend
 
-# Create virtual environment
+# Create and activate virtual environment
 python -m venv venv
 
-# Activate (Windows PowerShell)
+# Windows
 venv\Scripts\activate
-# Activate (Mac/Linux)
+
+# Mac/Linux
 source venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Train ML models (~30 seconds, one time only)
+# Train ML models (runs once, takes ~30 seconds)
 python -m app.ml.train
 
 # Start API server
@@ -301,17 +274,31 @@ $env:REACT_APP_API_URL="http://localhost:8000/api/v1"; npm start
 REACT_APP_API_URL=http://localhost:8000/api/v1 npm start
 ```
 
-Open **http://localhost:3000** → Go to **Simulator** page → Click **Run** to generate data.
+Open **http://localhost:3000** → Go to **Simulator** → Select **Mixed Reality** → Click **Run** → Explore all pages.
+
+---
+
+## 🌐 Live Demo Links
+
+| Page | URL |
+|---|---|
+| 🏠 Dashboard | [finsentinel-ui.onrender.com](https://finsentinel-ui.onrender.com) |
+| ⚡ Live Feed | [finsentinel-ui.onrender.com/live](https://finsentinel-ui.onrender.com/live) |
+| 🚨 Alert Queue | [finsentinel-ui.onrender.com/alerts](https://finsentinel-ui.onrender.com/alerts) |
+| ⚡ Simulator | [finsentinel-ui.onrender.com/simulate](https://finsentinel-ui.onrender.com/simulate) |
+| 📖 User Guide | [finsentinel-ui.onrender.com/guide](https://finsentinel-ui.onrender.com/guide) |
+| 📖 API Docs | [finsentinel.onrender.com/docs](https://finsentinel.onrender.com/docs) |
+| ❤️ Health | [finsentinel.onrender.com/api/v1/health](https://finsentinel.onrender.com/api/v1/health) |
 
 ---
 
 ## 🌐 API Reference
 
 | Method | Endpoint | Description |
-|--------|----------|-------------|
+|---|---|---|
 | `GET` | `/api/v1/health` | Health check |
 | `POST` | `/api/v1/transactions` | Score transaction with ML |
-| `GET` | `/api/v1/transactions` | List transactions with filters |
+| `GET` | `/api/v1/transactions` | List with filters |
 | `GET` | `/api/v1/transactions/{id}` | Transaction + SHAP values |
 | `GET` | `/api/v1/alerts` | List alerts by status/risk |
 | `PATCH` | `/api/v1/alerts/{id}` | Update alert status |
@@ -320,7 +307,7 @@ Open **http://localhost:3000** → Go to **Simulator** page → Click **Run** to
 | `GET` | `/api/v1/analytics/risk-distribution` | Risk level breakdown |
 | `GET` | `/api/v1/analytics/category-breakdown` | Fraud by merchant category |
 | `GET` | `/api/v1/analytics/hourly` | Hourly transaction volume |
-| `GET` | `/api/v1/analytics/timeseries` | Last 30-minute time series |
+| `GET` | `/api/v1/analytics/timeseries` | 30-minute time series |
 | `GET` | `/api/v1/analytics/geo-bubbles` | Geographic fraud clusters |
 | `GET` | `/api/v1/analytics/top-cards-at-risk` | Highest risk cards |
 | `GET` | `/api/v1/model/info` | ML model metadata + metrics |
@@ -331,15 +318,12 @@ Full interactive docs: [finsentinel.onrender.com/docs](https://finsentinel.onren
 ---
 
 ## 📁 Project Structure
-
 ```
 finsentinel/
 ├── backend/
 │   ├── app/
-│   │   ├── api/
-│   │   │   └── routes.py          # All 16 endpoints + WebSocket
-│   │   ├── core/
-│   │   │   └── database.py        # SQLAlchemy — PostgreSQL/SQLite
+│   │   ├── api/routes.py          # All 16 endpoints + WebSocket
+│   │   ├── core/database.py       # SQLAlchemy — PostgreSQL/SQLite
 │   │   ├── ml/
 │   │   │   ├── train.py           # XGBoost + Isolation Forest training
 │   │   │   ├── inference.py       # Real-time prediction + SHAP
@@ -347,101 +331,99 @@ finsentinel/
 │   │   ├── models/
 │   │   │   ├── db_models.py       # SQLAlchemy ORM models
 │   │   │   └── schemas.py         # Pydantic schemas
-│   │   └── services/
-│   │       └── simulator.py       # Synthetic transaction generator
-│   ├── tests/
-│   │   └── test_api.py            # 13 tests — 100% passing
+│   │   └── services/simulator.py  # Synthetic transaction generator
+│   ├── tests/test_api.py          # 13 tests — 100% passing
 │   ├── main.py                    # FastAPI entrypoint
-│   ├── requirements.txt
-│   └── Dockerfile
-│
-├── frontend/
-│   └── src/
-│       ├── api/client.ts          # Axios API client
-│       ├── store/index.ts         # Zustand global state
-│       ├── components/
-│       │   ├── layout/Sidebar.tsx
-│       │   └── dashboard/TransactionPanel.tsx  # SHAP panel
-│       └── pages/
-│           ├── Overview.tsx       # KPI dashboard + charts
-│           ├── LiveFeed.tsx       # Real-time feed
-│           ├── AlertQueue.tsx     # Case management
-│           ├── Transactions.tsx   # Transaction browser
-│           ├── MLIntelligence.tsx # Model metrics
-│           ├── Simulator.tsx      # Data generator
-│           └── About.tsx          # Developer profile
-│
-├── docker-compose.yml             # Full local stack
-├── render.yaml                    # Render deployment config
-└── .github/
-    └── workflows/
-        └── ci.yml                 # GitHub Actions CI/CD
+│   └── requirements.txt
+├── frontend/src/
+│   ├── api/client.ts              # Axios + WebSocket client
+│   ├── store/index.ts             # Zustand global state
+│   ├── components/layout/         # Sidebar navigation
+│   └── pages/
+│       ├── Overview.tsx           # KPI dashboard + 4 charts
+│       ├── LiveFeed.tsx           # Real-time WebSocket feed
+│       ├── AlertQueue.tsx         # Case management workflow
+│       ├── Transactions.tsx       # Transaction browser
+│       ├── MLIntelligence.tsx     # Model metrics + charts
+│       ├── Simulator.tsx          # 4-scenario data generator
+│       ├── UserGuide.tsx          # Interactive user manual
+│       └── About.tsx              # Developer profile
+├── docker-compose.yml
+├── render.yaml
+└── .github/workflows/ci.yml
 ```
 
 ---
 
-## ✅ Tests
-
+## ✅ Running Tests
 ```bash
 cd backend
 pytest tests/ -v
+# 13 passed
 ```
 
-```
-tests/test_api.py::test_health                    PASSED
-tests/test_api.py::test_inference_low_risk        PASSED
-tests/test_api.py::test_inference_high_risk       PASSED
-tests/test_api.py::test_inference_shap_values     PASSED
-tests/test_api.py::test_simulator_scenarios       PASSED
-tests/test_api.py::test_simulate_endpoint         PASSED
-tests/test_api.py::test_transactions_list         PASSED
-tests/test_api.py::test_alerts_list               PASSED
-tests/test_api.py::test_dashboard_stats           PASSED
-tests/test_api.py::test_risk_distribution         PASSED
-tests/test_api.py::test_model_info                PASSED
-tests/test_api.py::test_create_transaction_api    PASSED
-tests/test_api.py::test_hourly_stats              PASSED
+---
 
-13 passed in 13.07s
-```
+## 🎬 Demo Walkthrough for Recruiters
+
+Follow these 8 steps to see every feature in under 5 minutes:
+
+1. **Wake backend** → Open [health check](https://finsentinel.onrender.com/api/v1/health) → wait for `{"status":"ok"}`
+2. **Generate data** → Go to [Simulator](https://finsentinel-ui.onrender.com/simulate) → Select **Fraud Storm** → Click **Run** (20 transactions)
+3. **Watch live stream** → Go to [Live Feed](https://finsentinel-ui.onrender.com/live) → See CRITICAL transactions streaming in real-time
+4. **Open SHAP panel** → Click any CRITICAL transaction → See exactly WHY it was flagged by the ML model
+5. **Review dashboard** → Go to [Overview](https://finsentinel-ui.onrender.com) → See all 4 charts populated with live data
+6. **Action an alert** → Go to [Alert Queue](https://finsentinel-ui.onrender.com/alerts) → Click an alert → Confirm Fraud
+7. **Check ML metrics** → Go to [ML Intelligence](https://finsentinel-ui.onrender.com/model) → AUC-ROC: 1.0000
+8. **Read the guide** → Go to [User Guide](https://finsentinel-ui.onrender.com/guide) → Full interactive feature walkthrough
 
 ---
 
 ## ☁️ Deployment
 
-Deployed on [Render](https://render.com) using `render.yaml` blueprint.
+Deployed on [Render](https://render.com) free tier.
 
 | Service | Type | URL |
-|---------|------|-----|
-| `finsentinel-api` | Web Service (Python) | [finsentinel.onrender.com](https://finsentinel.onrender.com) |
+|---|---|---|
+| `finsentinel` | Web Service (Python) | [finsentinel.onrender.com](https://finsentinel.onrender.com) |
 | `finsentinel-ui` | Static Site (React) | [finsentinel-ui.onrender.com](https://finsentinel-ui.onrender.com) |
 | `finsentinel-db` | PostgreSQL | Internal |
 
+> **Note:** Free tier services sleep after 15 minutes of inactivity. First request takes 30–60 seconds to wake up. Open the health check URL first before sharing the demo link with anyone.
+
 ---
 
-## 🔬 Feature Engineering
+## 🔬 Feature Engineering Pipeline
 
 | Feature | Description |
-|---------|-------------|
+|---|---|
 | `amount_log` | Log-transformed transaction amount |
-| `hour_sin` / `hour_cos` | Cyclical time encoding |
-| `geo_distance_km` | Haversine distance from home location |
-| `velocity_1h` | Transaction count — last 1 hour |
-| `velocity_24h` | Transaction count — last 24 hours |
-| `merchant_risk_score` | Pre-computed merchant risk (0–1) |
-| `device_age_days` | Days since device registration |
+| `hour_sin` / `hour_cos` | Cyclical time encoding (prevents 23:59 → 00:00 discontinuity) |
+| `geo_distance_km` | Haversine distance from cardholder's home location |
+| `velocity_1h` | Number of transactions in the last 1 hour |
+| `velocity_24h` | Number of transactions in the last 24 hours |
+| `merchant_risk_score` | Pre-computed merchant risk score (0–1) |
+| `device_age_days` | Days since device/account registration |
 | `is_new_merchant` | First-time merchant flag |
 | `cross_border` | International transaction flag |
-| `category_encoded` | Merchant category encoding |
+| `category_encoded` | Merchant category label encoding |
+
+---
+
+## 🔗 Other Projects
+
+| Project | Description | Links |
+|---|---|---|
+| **CodeSync** | Real-time collaborative code editor built with Yjs CRDT + WebSocket + Monaco Editor. Multiple developers can code together simultaneously in the browser. | [GitHub](https://github.com/Ajitjoshi07/Ajitjoshi-codesync) · [Live Demo](https://ajitjoshi-codesync.onrender.com) |
 
 ---
 
 <div align="center">
 
-**FinSentinel v1.0.0** · Built by **Ajit Mukund Joshi** · B.Tech AI & Data Science · 2026
+**FinSentinel v1.0.0** · Built by **Ajit Mukund Joshi** · B.Tech Artificial Intelligence & Data Science · 2026
 
-*Portfolio project — transaction data is entirely synthetic*
+*All transaction data is entirely synthetic. No real financial data is used anywhere in this project.*
 
-⭐ Star this repo if you found it useful!
+⭐ If you found this useful, consider starring the repo!
 
 </div>
