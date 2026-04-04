@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const BASE = 'https://finsentinel.onrender.com';
+const BASE = 'https://finsentinel.onrender.com/api/v1';
 
-export const api = axios.create({ baseURL: BASE, timeout: 15000 });
+export const api = axios.create({ baseURL: BASE, timeout: 30000 });
 
 // Dashboard
 export const getDashboard = () => api.get('/analytics/dashboard').then(r => r.data);
@@ -32,7 +32,7 @@ export const simulate = (scenario: string, count: number) =>
 // Model
 export const getModelInfo = () => api.get('/model/info').then(r => r.data);
 
-// WebSocket
+// WebSocket — fixed: added /api/v1/ prefix
 export const createWebSocket = (): WebSocket => {
-  return new WebSocket("wss://finsentinel.onrender.com/ws/feed");
+  return new WebSocket('wss://finsentinel.onrender.com/api/v1/ws/feed');
 };
