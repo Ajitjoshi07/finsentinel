@@ -32,7 +32,7 @@ export const simulate = (scenario: string, count: number) =>
 // Model
 export const getModelInfo = () => api.get('/model/info').then(r => r.data);
 
-// ✅ WebSocket FIXED
+// ✅ FIXED WebSocket
 export const createWebSocket = (): WebSocket => {
   return new WebSocket("wss://finsentinel.onrender.com/ws/feed");
 };
