@@ -1,6 +1,8 @@
 from fastapi import APIRouter
 import random
 
+router = APIRouter()  # ✅ THIS WAS MISSING
+
 # =========================
 # ANALYTICS ENDPOINTS
 # =========================
@@ -52,9 +54,8 @@ def top_cards():
         {"card": "5678", "risk": "CRITICAL"},
     ]
 
-
 # =========================
-# SIMULATOR ENDPOINT
+# SIMULATOR
 # =========================
 
 @router.post("/simulate")
