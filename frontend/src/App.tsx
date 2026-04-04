@@ -9,6 +9,7 @@ import Transactions from './pages/Transactions';
 import MLIntelligence from './pages/MLIntelligence';
 import Simulator from './pages/Simulator';
 import About from './pages/About';
+import UserGuide from './pages/UserGuide';
 import { useStore } from './store';
 import { createWebSocket } from './api/client';
 import './index.css';
@@ -61,6 +62,7 @@ function AppLayout() {
           <Route path="/transactions" element={<Transactions />} />
           <Route path="/model" element={<MLIntelligence />} />
           <Route path="/simulate" element={<Simulator />} />
+          <Route path="/guide" element={<UserGuide />} />
           <Route path="/about" element={<About />} />
         </Routes>
       </main>
