@@ -32,8 +32,7 @@ export const simulate = (scenario: string, count: number) =>
 // Model
 export const getModelInfo = () => api.get('/model/info').then(r => r.data);
 
-// WebSocket
+// WebSocket (FIXED)
 export const createWebSocket = (): WebSocket => {
-  const wsBase = BASE.replace(/^http/, 'ws');
-  return new WebSocket(`${wsBase}/ws/feed`);
+  return new WebSocket("wss://finsentinel.onrender.com/ws/feed");
 };
