@@ -1,7 +1,6 @@
-from fastapi import APIRouter
-import random
-
-router = APIRouter()
+# =========================
+# ANALYTICS ENDPOINTS
+# =========================
 
 @router.get("/analytics/dashboard")
 def get_dashboard():
@@ -20,11 +19,22 @@ def risk_distribution():
         {"risk": "CRITICAL", "count": 20},
     ]
 
+# =========================
+# SIMULATOR
+# =========================
+
 @router.post("/simulate")
 def simulate():
+    import random
     return {
         "simulated": 5,
         "transactions": [
-            {"id": 1, "amount": 500, "risk_level": "LOW", "is_flagged": False}
+            {
+                "id": i,
+                "amount": random.randint(100, 10000),
+                "risk_level": random.choice(["LOW", "MEDIUM", "HIGH"]),
+                "is_flagged": random.choice([True, False])
+            }
+            for i in range(5)
         ]
     }

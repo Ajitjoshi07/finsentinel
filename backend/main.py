@@ -1,42 +1,40 @@
-import os
-import sys
-sys.path.insert(0, os.path.dirname(__file__))
+# =========================
+# ANALYTICS ENDPOINTS
+# =========================
 
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from contextlib import asynccontextmanager
+@router.get("/analytics/dashboard")
+def get_dashboard():
+    return {
+        "total_transactions": 1000,
+        "fraud_transactions": 45,
+        "fraud_rate": 4.5,
+    }
 
-from app.core.database import create_tables
-from app.ml.inference import engine as ml_engine
-from app.api.routes import router
+@router.get("/analytics/risk-distribution")
+def risk_distribution():
+    return [
+        {"risk": "LOW", "count": 700},
+        {"risk": "MEDIUM", "count": 200},
+        {"risk": "HIGH", "count": 80},
+        {"risk": "CRITICAL", "count": 20},
+    ]
 
+# =========================
+# SIMULATOR
+# =========================
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    create_tables()
-    ml_engine.load()
-    print("FinSentinel API ready")
-    yield
-
-
-app = FastAPI(
-    title="FinSentinel API",
-    description="AI-Powered Transaction Intelligence Platform",
-    version="1.0.0",
-    lifespan=lifespan,
-)
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-app.include_router(router, prefix="/api/v1")
-
-
-@app.get("/")
-def root():
-    return {"service": "FinSentinel", "version": "1.0.0", "docs": "/docs"}
+@router.post("/simulate")
+def simulate():
+    import random
+    return {
+        "simulated": 5,
+        "transactions": [
+            {
+                "id": i,
+                "amount": random.randint(100, 10000),
+                "risk_level": random.choice(["LOW", "MEDIUM", "HIGH"]),
+                "is_flagged": random.choice([True, False])
+            }
+            for i in range(5)
+        ]
+    }
